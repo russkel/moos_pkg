@@ -62,10 +62,11 @@ target_include_directories(MOOSGeodesy PUBLIC
 # which is appropriate when building the dll but not consuming it.
 # target_compile_definitions(moos PRIVATE "MOOS_BUILDING_LIBRARY")
 
-install(
-  DIRECTORY include/
-  DESTINATION include
-)
+# install(
+#   DIRECTORY include/
+#   DESTINATION include
+# )
+
 install(
   TARGETS MOOSDB MOOS
   EXPORT export_moos

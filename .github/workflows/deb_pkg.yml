@@ -1,0 +1,51 @@
+name: Debian package
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  bloom_deb:
+    name: bloom #${{ matrix.linter }}
+    runs-on: ubuntu-20.04
+    # strategy:
+    #   fail-fast: false
+      # matrix:
+      #   linter: [cppcheck, cpplint, uncrustify, xmllint]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - name: Checkout MOOS core source
+        uses: actions/checkout@v2
+        with:
+          repository: 'russkel/core-moos'
+          ref: 'ros-fixes'
+          path: '${{ github.workspace }}/core-moos'
+      - name: Checkout MOOS essentials source
+        uses: actions/checkout@v2
+        with:
+          repository: 'russkel/essential-moos'
+          path: '${{ github.workspace }}/essential-moos'
+          ref: 'ci-fixes'
+      - name: Checkout MOOS geodesy source
+        uses: actions/checkout@v2
+        with:
+          repository: 'russkel/geodesy-moos'
+          ref: 'ci-fixes'
+          path: '${{ github.workspace }}/geodesy-moos'
+      - uses: ros-tooling/setup-ros@0.0.26
+      - run: sudo apt-get install -y fakeroot dpkg-dev debhelper python3-bloom
+      - run: |
+          bloom-generate debian
+          fakeroot debian/rules binary
+          mv ../*.deb ${{ github.workspace }}
+          mv ../*.ddeb ${{ github.workspace }}
+          find ..
+      - name: Upload debs
+        uses: actions/upload-artifact@v2
+        with:
+          name: deb
+          path: |
+            ${{ github.workspace }}/*.deb
+            ${{ github.workspace }}/*.ddeb
+          if-no-files-found: error
