@@ -1,0 +1,14 @@
+# - Config file for the moos package
+# It defines the following variables
+#  moos_INCLUDE_DIRS - include directories for FooBar
+#  moos_LIBRARIES    - libraries to link against
+#  moos_EXECUTABLE   - the bar executable
+
+set(MOOS_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
+
+# Our library dependencies (contains definitions for IMPORTED targets)
+include("${MOOS_DIR}/export_moos.cmake")
+
+# These are IMPORTED targets created by moosTargets.cmake
+set(MOOS_LIBRARIES MOOS::MOOS)
+

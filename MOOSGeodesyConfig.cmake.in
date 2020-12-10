@@ -1,0 +1,13 @@
+# - Config file for the moos package
+# It defines the following variables
+#  moos_INCLUDE_DIRS - include directories for FooBar
+#  moos_LIBRARIES    - libraries to link against
+#  moos_EXECUTABLE   - the bar executable
+
+set(MOOSGeodesy_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
+
+# Our library dependencies (contains definitions for IMPORTED targets)
+include("${MOOSGeodesy_DIR}/export_moosgeodesy.cmake")
+
+# These are IMPORTED targets created by moosTargets.cmake
+set(MOOSGeodesy_LIBRARIES MOOSGeodesy)
